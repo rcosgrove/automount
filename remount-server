@@ -1,0 +1,23 @@
+on idle
+# Ping the IP addresss of the server to be remounted.
+set intnt to do shell script "ping -c 1 192.0.0.0; echo -n"
+	set paras to number of paragraphs in intnt
+	if paras < 5 then
+	else
+# IP address of the server to be remounted.
+		set serverIP to "smb://192.0.0.0/VOLUME"
+# User and password for the server's user account
+		set UserAccount to "USER"
+		set ServerPassword to "PASSWORD"
+		set serverVolume to UserAccount
+		tell application "Finder"
+			try
+				if disk serverVolume exists then
+				else
+					mount volume serverIP as user name UserAccount with password ServerPassword
+				end if
+			end try
+		end tell
+	end if
+	return 5
+end idle
